@@ -136,3 +136,32 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# Django Rest Framework
+# ----------------------------------------------------------------
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': int(os.getenv('DJANGO_PAGINATION_LIMIT', 10)),
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S%z',
+    'DATE_FORMAT': '%Y-%m-%d',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    )
+}
+
+#--------------Additional Configuration-----------------
+
+#Default Settings
+EXCEPTION_MESSAGE = 'Exception message'
+BAD_REQUEST_MESSAGE = 'We are unable to understand your request.'
+NOT_FOUND_MESSAGE = 'We cannot seem to find the page you are looking for'
+FORBIDDEN_MESSAGE = 'It seems like you do not have the permission to access this page.'
+ENTITY_TOO_LARGE_MESSAGE = 'Request entity too large. Please verify the request contents.'
+DATE_FORMAT = '%Y-%m-%d'
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
+ADMIN_URL = r'^admin/'
