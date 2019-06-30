@@ -4,8 +4,27 @@ from common.responses import *
 
 from rest_framework.views import APIView
 from django.http import HttpResponseNotFound, HttpResponseRedirect
-from django.shortcuts import redirect, reverse
+from django.shortcuts import reverse, redirect
+from django.views.generic import TemplateView
 
+
+
+class Home(TemplateView):
+
+	def get(self, request, *args, **kwargs):
+
+		try:
+			self.template_name = 'common/home.html'
+			page_not_found = False
+			if request.GET.get('action', None) == 'page_not_found':
+				page_not_found = True
+			return self.render_to_response({
+				'page_not_found': page_not_found,
+				'service_url': request.build_absolute_uri(reverse('common:get-short-url'))
+				})
+		except Exception as e:
+			print(e)
+			return HttpResponseNotFound('Page can not be shown')
 
 class URLMaps(APIView):
 
@@ -15,12 +34,12 @@ class URLMaps(APIView):
 			identifier = int(surl.strip(), 16)
 			url_map = URLMap.objects.filter(identifier=identifier).last()
 			if not url_map:
-				return HttpResponseNotFound('Page not found')
+				return redirect('{0}?action=page_not_found'.format(reverse('common:home')))
 
 			return HttpResponseRedirect(url_map.url)
 		except Exception as e:
 			print(e)
-			return HttpResponseNotFound('Page not found')
+			return redirect('{0}?action=page_not_found'.format(reverse('common:home')))
 
 
 	def post(self, request, *args, **kwargs):

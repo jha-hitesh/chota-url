@@ -1,0 +1,22 @@
+<html>
+	<head>
+		
+	</head>
+	<body>
+		{% if page_not_found %}
+			<h2>We are extremely sorry,</h2>
+			<h3>We can not find the page you are looking for.</h3>
+			<br>
+			<h3>By The Way, Who are we?</h3>
+		{% else %}
+			<h2>Welcome To Chota URL</h2>
+		{% endif %}
+		<p>
+			We provide a service to convert longer unreadable urls tos shorter and simpler ones. 
+		</p>
+		<p>
+			hit a POST request on <b>{{ service_url }}</b> with url as the long url that you want to shorten and you should get the shortened url in response.
+		</p>
+		<h4>Enjoy!</h4>
+	</body>
+</html>
